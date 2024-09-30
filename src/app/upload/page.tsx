@@ -152,7 +152,7 @@ const AnimatedDiv = () => {
 
     const rootDiv = document.getElementById('shortItinerary');
     const observer = new IntersectionObserver(handleIntersection, {
-      threshold: 0.5,
+      threshold: .1,
     });
 
     if (rootDiv) observer.observe(rootDiv);
@@ -209,9 +209,18 @@ const AnimatedDiv = () => {
   return (
     <>
       <div className="h-[100vh]"></div>
-      <div className="h-[100vh] grid grid-cols-3">
+      <div className="h-[100vh] flex justify-center">
         <div>
-          <div className='shortItinerary-locations flex flex-row-reverse justify-center items-center' style={{ opacity: 0 }}>
+          <div className='shortItinerary-locations flex flex-row-reverse justify-center items-center left-[8px] relative top-[160px]' style={{ opacity: 0 }}>
+            <div id="shortItinerary-locations-line" className="relative flex flex-row w-[96px] h-[1px] justify-end info info-large info-left info-bottom" data-delay="1000">
+              <div className="w-[96px] h-full bg-black info-bar"></div>
+            </div>
+            <div className="p-5 border border-black rounded-xl shadow-xl">
+              <figcaption className="feature-caption">reverse</figcaption>
+              <figcaption className="feature-caption">loop 3 begin</figcaption>
+            </div>
+          </div>
+          <div className='shortItinerary-locations flex flex-row-reverse justify-center items-center left-[8px] relative top-[280px]' style={{ opacity: 0 }}>
             <div id="shortItinerary-locations-line" className="relative flex flex-row w-[96px] h-[1px] justify-end info info-large info-left info-bottom" data-delay="1000">
               <div className="w-[96px] h-full bg-black info-bar"></div>
             </div>
@@ -225,7 +234,7 @@ const AnimatedDiv = () => {
           <div id="shortItinerary">
             <svg
               viewBox='0 0 10 500'
-              style={{ width: '550px', height: '650px' }}
+              style={{ width: '150px', height: '650px' }}
               id="path-main"
             >
 
@@ -242,8 +251,8 @@ const AnimatedDiv = () => {
             </svg>
           </div>
         </div>
-        <div className='grid grid-cols-1'>
-          <div className='shortItinerary-locations flex flex-row justify-center items-center' style={{ opacity: 0 }}>
+        <div className=''>
+          <div className='shortItinerary-locations flex flex-row justify-center items-center -left-[21px] relative top-[60px]' style={{ opacity: 0 }}>
             <div id="shortItinerary-locations-line" className="relative flex flex-row w-[96px] h-[1px] justify-end info info-large info-left info-bottom" data-delay="1000">
               <div className="w-[96px] h-full bg-black info-bar"></div>
             </div>
@@ -252,10 +261,7 @@ const AnimatedDiv = () => {
               <figcaption className="feature-caption">loop 3 begin</figcaption>
             </div>
           </div>
-          <div>
-
-          </div>
-          <div className='shortItinerary-locations flex flex-row justify-center items-center' style={{ opacity: 0 }}>
+          <div className='shortItinerary-locations flex flex-row justify-center items-center -left-[21px] relative top-[180px]' style={{ opacity: 0 }}>
             <div id="shortItinerary-locations-line" className="relative flex flex-row w-[96px] h-[1px] justify-end info info-large info-left info-bottom" data-delay="1000">
               <div className="w-[96px] h-full bg-black info-bar"></div>
             </div>
@@ -264,9 +270,7 @@ const AnimatedDiv = () => {
               <figcaption className="feature-caption">loop 3 begin</figcaption>
             </div>
           </div>
-          <div>
 
-          </div>
           
         </div>
       </div>
