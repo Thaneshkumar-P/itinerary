@@ -17,7 +17,6 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
@@ -82,6 +81,26 @@ body {
   }
 }
 
+@font-face {
+  font-family: 'Monterrat';
+  src: url('/src/app/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'SliderLocName';
+  src: url('/src/app/fonts/Lobster-Regular.ttf') format('truetype');
+}
+
+
+/* body {
+  font-family: 'Monterrat', sans-serif
+} */
+
+.font-slider {
+  font-family: 'SliderLocName'
+}
+
+
 @layer base {
   * {
     @apply border-border;
@@ -103,3 +122,19 @@ body {
   background-position-y: -40px;
   background-position-x: -25px;
 }
+
+.deslide-item .deslide-cover {
+    -webkit-mask-image: linear-gradient(0deg,rgb(36,36,40) 30%,transparent);
+    mask-image: linear-gradient(0deg,rgb(36,36,40) 30%,transparent)
+}
+
+.letters {
+  display: inline-block; /* Ensure each letter can be animated separately */
+}
+
+.ml6 .letter {
+  display: inline-block; /* Each letter should be an inline block */
+}
+
+
+

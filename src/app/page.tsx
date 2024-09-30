@@ -5,8 +5,10 @@ import {
   Card,
   CardContent,
 } from "@/components/ui/card"
+import TopNav from "@/ui/TopNav";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 // import HM from '@/assets/HM.jpg'
 
@@ -34,7 +36,12 @@ export default function Home() {
   }
 
   return (
+    <>
     <div>
+      <TopNav />
+    </div>
+    <div className="md:py-3 md:px-20 px-5 py-1">
+      <div>
       <h4 className="text-3xl font-semibold">
         Itinerary Builder
       </h4>
@@ -58,7 +65,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.7  }}
+              transition={{ duration: 0.7 }}
             />
             <motion.div 
               layoutId="card" 
@@ -79,21 +86,25 @@ export default function Home() {
                 <motion.div className="flex gap-5 grow h-full w-full justify-center">
                   <motion.div
                     variants={container}
-                    className="grid grid-cols-3 gap-5"
+                    className="grid md:grid-cols-3 grid-cols-1 gap-5"
                     initial="hidden"
                     animate="visible"
                   >
-                    <motion.div variants={item} className="h-28 w-56 border shadow rounded-xl flex justify-center items-center bg-img-fn" whileHover={{
-                      scale: 1.05
-                    }} animate={{ opacity: 1, scale: 1}}>
-                      <motion.h5 className="text-xl font-semibold">Friends</motion.h5>
-                    </motion.div>
-                    <motion.div variants={item} className="h-28 w-56 border shadow rounded-xl flex justify-center items-center bg-img-hm" whileHover={{
-                      scale: 1.05
-                    }} animate={{ opacity: 1, scale: 1}}
-                    >
-                      <motion.h5 className="text-xl font-semibold">Honeymoon</motion.h5>
-                    </motion.div>
+                    <Link href={'/template?t=friends'} >
+                      <motion.div variants={item} className="h-28 w-56 border shadow rounded-xl flex justify-center items-center bg-img-fn" whileHover={{
+                        scale: 1.05
+                      }} animate={{ opacity: 1, scale: 1}} drag>
+                        <motion.h5 className="text-xl font-semibold">Friends</motion.h5>
+                      </motion.div>
+                    </Link>
+                    <Link href={'/template?t=honey'} >
+                      <motion.div variants={item} className="h-28 w-56 border shadow rounded-xl flex justify-center items-center bg-img-hm" whileHover={{
+                        scale: 1.05
+                      }} animate={{ opacity: 1, scale: 1}}
+                      >
+                        <motion.h5 className="text-xl font-semibold">Honeymoon</motion.h5>
+                      </motion.div>
+                    </Link>
                     <motion.div variants={item} className="h-28 w-56 border shadow rounded-xl flex justify-center items-center" whileHover={{
                       scale: 1.05
                     }} animate={{ opacity: 1, scale: 1}}>
@@ -116,5 +127,7 @@ export default function Home() {
       </AnimatePresence>
 
     </div>
+  </div>
+  </>
   );
 }
