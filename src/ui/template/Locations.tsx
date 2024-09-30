@@ -70,8 +70,7 @@ const AnimatedHeading: React.FC = () => {
                   <div className='shadow border w-fit p-2 rounded-2xl'>
                     <Image src={icon} alt={`icon-${label}`} width={40} height={40} />
                   </div>
-                  <
-                    p className="text-md font-medium col-span-4">{label}</p>
+                  <p className="text-md font-medium col-span-4">{label}</p>
                 </div>
               ))}
             </div>

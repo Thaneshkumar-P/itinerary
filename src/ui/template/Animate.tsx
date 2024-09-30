@@ -1,6 +1,3 @@
-import React, { useEffect, useRef, useState } from 'react';
-import anime from 'animejs/lib/anime.es.js';
-import { AnimeInstance } from 'animejs';
 
 const AnimatedDiv = () => {
   

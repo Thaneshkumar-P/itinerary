@@ -127,6 +127,9 @@ const AnimatedDiv = () => {
 
       lastScrollY = currentScrollY;
 
+      if(tracingProgress === 1)
+        window.removeEventListener('scroll', handleScroll);
+
       // Idle detection after scroll stops
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
@@ -162,34 +165,109 @@ const AnimatedDiv = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const locations = document.querySelectorAll('.shortItinerary-locations');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const target = entry.target;
+
+          // Animate the currently intersecting location
+          anime({
+            targets: target,
+            opacity: [0, 1],
+            easing: 'easeInOutSine',
+            duration: 1000,
+          });
+
+          anime({
+            targets: target.querySelector('#shortItinerary-locations-line'), // Animate the line specific to this location
+            scaleX: [0, 1],
+            opacity: [0, 1],
+            easing: 'easeInOutSine',
+            duration: 1000,
+          });
+
+          observer.unobserve(target); // Stop observing after it has been animated
+        }
+      });
+    }, { threshold: 1 });
+
+    locations.forEach(location => {
+      observer.observe(location);
+    });
+
+    return () => {
+      locations.forEach(location => {
+        observer.unobserve(location);
+      });
+    };
+  }, []);
+
+
   return (
     <>
       <div className="h-[100vh]"></div>
-      <div>
-        <div id="shortItinerary">
-          <svg
-            viewBox="0 0 100 300" // Increase the height in the viewBox to fit an extended path
-            style={{ width: '550px', height: '550px' }}
-            id="path-main"
-          >
-            <path
-              d="M 0 0 V 40 C 60 40 60 120 0 120 C -60 120 -60 200 0 200 C 60 200 60 280 0 280" // Extended path with more curves
-              fill="none"
-              stroke="gray"
-              strokeWidth="4"
-              id="path"
-            />
-            <circle cx="0" cy="0" r="6" fill="black" id="circle" />
-          </svg>
+      <div className="h-[100vh] grid grid-cols-3">
+        <div>
+          <div className='shortItinerary-locations flex flex-row-reverse justify-center items-center' style={{ opacity: 0 }}>
+            <div id="shortItinerary-locations-line" className="relative flex flex-row w-[96px] h-[1px] justify-end info info-large info-left info-bottom" data-delay="1000">
+              <div className="w-[96px] h-full bg-black info-bar"></div>
+            </div>
+            <div className="p-5 border border-black rounded-xl shadow-xl">
+              <figcaption className="feature-caption">reverse</figcaption>
+              <figcaption className="feature-caption">loop 3 begin</figcaption>
+            </div>
+          </div>
         </div>
-      </div>
-      <div id="shortItinerary-locations" className="flex justify-center items-center h-[100vh]">
-        <div className="relative flex flex-row w-[96px] h-[1px] justify-end info info-large info-left info-bottom" data-delay="1000">
-          <div className="w-[96px] h-full bg-black info-bar"></div>
+        <div>
+          <div id="shortItinerary">
+            <svg
+              viewBox='0 0 10 500'
+              style={{ width: '550px', height: '650px' }}
+              id="path-main"
+            >
+
+              <path
+                d="M 0 0 V 40 C 60 40 60 120 0 120 C -60 120 -60 200 0 200 C 60 200 60 280 0 280 C -60 280 -60 360 0 360 V 360 400" // Extended path with more curves
+                fill="none"
+                stroke="gray"
+                strokeWidth="4"
+                id="path"
+              />
+
+              <circle cx="0" cy="0" r="6" fill="black" id="circle" />
+
+            </svg>
+          </div>
         </div>
-        <div className="p-5 border border-black rounded-xl shadow-xl">
-          <figcaption className="feature-caption">reverse</figcaption>
-          <figcaption className="feature-caption">loop 3 begin</figcaption>
+        <div className='grid grid-cols-1'>
+          <div className='shortItinerary-locations flex flex-row justify-center items-center' style={{ opacity: 0 }}>
+            <div id="shortItinerary-locations-line" className="relative flex flex-row w-[96px] h-[1px] justify-end info info-large info-left info-bottom" data-delay="1000">
+              <div className="w-[96px] h-full bg-black info-bar"></div>
+            </div>
+            <div className="p-5 border border-black rounded-xl shadow-xl">
+              <figcaption className="feature-caption">reverse</figcaption>
+              <figcaption className="feature-caption">loop 3 begin</figcaption>
+            </div>
+          </div>
+          <div>
+
+          </div>
+          <div className='shortItinerary-locations flex flex-row justify-center items-center' style={{ opacity: 0 }}>
+            <div id="shortItinerary-locations-line" className="relative flex flex-row w-[96px] h-[1px] justify-end info info-large info-left info-bottom" data-delay="1000">
+              <div className="w-[96px] h-full bg-black info-bar"></div>
+            </div>
+            <div className="p-5 border border-black rounded-xl shadow-xl">
+              <figcaption className="feature-caption">reverse</figcaption>
+              <figcaption className="feature-caption">loop 3 begin</figcaption>
+            </div>
+          </div>
+          <div>
+
+          </div>
+          
         </div>
       </div>
       <div className="p-5">
