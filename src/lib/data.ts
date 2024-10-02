@@ -48,6 +48,17 @@ export const mockItineraryData: ItineraryDocument = {
       locationHighlight: "Private gondola ride through the canals of Venice.",
       overview: "Venice, the city of canals, offers an unforgettable romantic experience.",
       images: ["venice_image_1.jpg", "venice_image_2.jpg"]
+    },
+    {
+      locationName: "Venice",
+      locationDays: "Day 6 - Day 7",
+      nights: "1 night",
+      date: "2024-09-14",
+      locationStay: "Ca' Sagredo Hotel",
+      locationMeals: "Breakfast and a farewell dinner.",
+      locationHighlight: "Private gondola ride through the canals of Venice.",
+      overview: "Venice, the city of canals, offers an unforgettable romantic experience.",
+      images: ["venice_image_1.jpg", "venice_image_2.jpg"]
     }
   ],
   toc: [

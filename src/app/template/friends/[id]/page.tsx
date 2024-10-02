@@ -5,11 +5,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y, Mousewheel, Autoplay } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
+import D from '@/assets/Dubai.svg'
 
 import IMG2 from '@/assets/friends.jpg';
 import localFont from "next/font/local";
 import { mockItineraryData } from "@/lib/data";
 import ScrollingLetters from "@/ui/template/Locations";
+import ShortItinerary from "@/ui/template/ShortItinerary";
+import { motion, useInView } from 'framer-motion'
+import { useRef } from "react";
 
 const lobster = localFont({ src: '../../../fonts/Lobster-Regular.ttf' });
 
@@ -18,7 +22,35 @@ const calculateFontSize = () => {
   return maxFontSize;
 };
 
+const container = {
+  hidden: { opacity: 1, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2
+    }
+  }
+}
+  
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1
+  }
+}
+
 export default function FriendsPage() {
+
+  const includedRef = useRef(null);
+  const excludedRef = useRef(null);
+
+  // Trigger animation when the section is in view
+  const isInViewIncluded = useInView(includedRef, { once: false, margin: '0px 0px -100px 0px' });
+  const isInViewExcluded = useInView(excludedRef, { once: false, margin: '0px 0px -100px 0px' });
+
   return (
     <>
       <div className="scrollbar-color">
@@ -65,37 +97,103 @@ export default function FriendsPage() {
           </div>
         </div>
       </div>
-      <div className="flex items-center">
-        <div id='shortItinerary'>
-          <svg
-            style={{ width: '400px', height: '400px' }}
-          >
-            <path
-              d="M 0 0 V 40 C 60 40 60 120 0 120 C -60 120 -60 200 0 200 C 60 200 60 280 0 280"
-              fill="none"
-              stroke="gray"
-              strokeWidth="4"
-              id='path'
-            />
-    
-            <g>
-              <svg height="20px" width="20px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46.876 46.876" fill="#000000">
-                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                <g id="SVGRepo_iconCarrier">
-                  <g>
-                    <path d="M26.602,24.568l15.401,6.072l-0.389-4.902c-10.271-7.182-9.066-6.481-14.984-10.615V2.681 c0-1.809-1.604-2.701-3.191-2.681c-1.587-0.021-3.19,0.872-3.19,2.681v12.44c-5.918,4.134-4.714,3.434-14.985,10.615l-0.39,4.903 l15.401-6.072c0,0-0.042,15.343-0.006,15.581l-5.511,3.771v2.957l7.044-2.427h3.271l7.046,2.427V43.92l-5.513-3.771 C26.644,39.909,26.602,24.568,26.602,24.568z"></path>
-                  </g>
-                </g>
-              </svg>
-            </g>
-          </svg>
+      <div className="flex items-center justify-center flex-col">
+        <div className="my-4 font-semibold text-4xl">
+          <h4>Short Itinerary</h4>
         </div>
-
+        <ShortItinerary data={mockItineraryData} />
       </div>
-      <div className="">
+      <div className="my-4">
         <ScrollingLetters />
       </div>
+      <div className="p-5">
+        <div className="md:flex items-stretch">
+
+          <div className="flex-1">
+            <h2 className="text-2xl font-semibold text-center">Included</h2>
+            <motion.div 
+              ref={includedRef} 
+              variants={container} 
+              initial="hidden" 
+              animate={isInViewIncluded ? 'visible' : 'hidden'} 
+              className="p-20 py-10 flex flex-col gap-5"
+            >
+              <motion.div variants={item} className='flex items-center gap-5'>
+                <div className='shadow border w-fit p-2 rounded-2xl'>
+                  <Image src={D} alt={`icon-${D}`} width={40} height={40} />
+                </div>
+                <div className='w-full text-clip'>
+                  <p className="text-md font-medium col-span-4">Included 1</p>
+                </div>
+              </motion.div>
+              <motion.div variants={item} className='flex items-center gap-5'>
+                <div className='shadow border w-fit p-2 rounded-2xl'>
+                  <Image src={D} alt={`icon-${D}`} width={40} height={40} />
+                </div>
+                <div className='w-[200px] text-clip'>
+                  <p className="text-md font-medium col-span-4">Included 1</p>
+                </div>
+              </motion.div>
+              <motion.div variants={item} className='flex items-center gap-5'>
+                <div className='shadow border w-fit p-2 rounded-2xl'>
+                  <Image src={D} alt={`icon-${D}`} width={40} height={40} />
+                </div>
+                <div className='w-[200px] text-clip'>
+                  <p className="text-md font-medium col-span-4">Included 1</p>
+                </div>
+              </motion.div>
+              <motion.div variants={item} className='flex items-center gap-5'>
+                <div className='shadow border w-fit p-2 rounded-2xl'>
+                  <Image src={D} alt={`icon-${D}`} width={40} height={40} />
+                </div>
+                <div className='w-[200px] text-clip'>
+                  <p className="text-md font-medium col-span-4">Included 1</p>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+
+          <div className="flex-1 border-l-2 border-black">
+            <h2 className="text-2xl font-semibold text-center">Excluded</h2>
+            <motion.div 
+              ref={excludedRef} 
+              variants={container} 
+              initial="hidden" 
+              animate={isInViewExcluded ? 'visible' : 'hidden'} 
+              className="p-20 py-10 flex flex-col gap-5"
+            >
+              <motion.div variants={item} className='flex items-center gap-5'>
+                <div className='shadow border w-fit p-2 rounded-2xl'>
+                  <Image src={D} alt={`icon-${D}`} width={40} height={40} />
+                </div>
+                <div className='w-[200px] text-clip'>
+                  <p className="text-md font-medium col-span-4">Excluded 1</p>
+                </div>
+              </motion.div>
+              <motion.div variants={item} className='flex items-center gap-5'>
+                <div className='shadow border w-fit p-2 rounded-2xl'>
+                  <Image src={D} alt={`icon-${D}`} width={40} height={40} />
+                </div>
+                <div className='w-[200px] text-clip'>
+                  <p className="text-md font-medium col-span-4">Excluded 1</p>
+                </div>
+              </motion.div>
+              <motion.div variants={item} className='flex items-center gap-5'>
+                <div className='shadow border w-fit p-2 rounded-2xl'>
+                  <Image src={D} alt={`icon-${D}`} width={40} height={40} />
+                </div>
+                <div className='w-[200px] text-clip'>
+                  <p className="text-md font-medium col-span-4">Excluded 1</p>
+                </div>
+              </motion.div>
+              {/* Add more items as needed */}
+            </motion.div>
+          </div>
+
+        </div>
+      </div>
+
+
     </>
   );
 }

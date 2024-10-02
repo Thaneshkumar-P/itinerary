@@ -213,7 +213,7 @@ const AnimatedDiv = () => {
         <div>
           <div className='shortItinerary-locations flex flex-row-reverse justify-center items-center left-[8px] relative top-[160px]' style={{ opacity: 0 }}>
             <div id="shortItinerary-locations-line" className="relative flex flex-row w-[96px] h-[1px] justify-end info info-large info-left info-bottom" data-delay="1000">
-              <div className="w-[96px] h-full bg-black info-bar"></div>
+              <div className="w-[96px] h-full bg-black info-bar" style={{ transformOrigin: '100% -50%' }}></div> {/* Changed to start from right */}
             </div>
             <div className="p-5 border border-black rounded-xl shadow-xl">
               <figcaption className="feature-caption">reverse</figcaption>
@@ -222,7 +222,7 @@ const AnimatedDiv = () => {
           </div>
           <div className='shortItinerary-locations flex flex-row-reverse justify-center items-center left-[8px] relative top-[280px]' style={{ opacity: 0 }}>
             <div id="shortItinerary-locations-line" className="relative flex flex-row w-[96px] h-[1px] justify-end info info-large info-left info-bottom" data-delay="1000">
-              <div className="w-[96px] h-full bg-black info-bar"></div>
+              <div className="w-[96px] h-full bg-black info-bar" style={{ transformOrigin: '50% 100%'}}></div>
             </div>
             <div className="p-5 border border-black rounded-xl shadow-xl">
               <figcaption className="feature-caption">reverse</figcaption>
@@ -239,7 +239,7 @@ const AnimatedDiv = () => {
             >
 
               <path
-                d="M 0 0 V 40 C 60 40 60 120 0 120 C -60 120 -60 200 0 200 C 60 200 60 280 0 280 C -60 280 -60 360 0 360 V 360 400" // Extended path with more curves
+                d="M 0 0 V 40 C 60 40 60 120 0 120 C -60 120 -60 200 0 200 C 60 200 60 280 0 280 C -60 280 -60 360 0 360 C 60 360 60 440 0 440 V 440 480" // Extended path with more curves
                 fill="none"
                 stroke="gray"
                 strokeWidth="4"
@@ -254,7 +254,7 @@ const AnimatedDiv = () => {
         <div className=''>
           <div className='shortItinerary-locations flex flex-row justify-center items-center -left-[21px] relative top-[60px]' style={{ opacity: 0 }}>
             <div id="shortItinerary-locations-line" className="relative flex flex-row w-[96px] h-[1px] justify-end info info-large info-left info-bottom" data-delay="1000">
-              <div className="w-[96px] h-full bg-black info-bar"></div>
+              <div className="w-[96px] h-full bg-black info-bar" style={{ transformOrigin: '50% 100%'}}></div>
             </div>
             <div className="p-5 border border-black rounded-xl shadow-xl">
               <figcaption className="feature-caption">reverse</figcaption>
@@ -263,7 +263,7 @@ const AnimatedDiv = () => {
           </div>
           <div className='shortItinerary-locations flex flex-row justify-center items-center -left-[21px] relative top-[180px]' style={{ opacity: 0 }}>
             <div id="shortItinerary-locations-line" className="relative flex flex-row w-[96px] h-[1px] justify-end info info-large info-left info-bottom" data-delay="1000">
-              <div className="w-[96px] h-full bg-black info-bar"></div>
+              <div className="w-[96px] h-full bg-black info-bar " style={{ transformOrigin: '50% 100%'}}></div>
             </div>
             <div className="p-5 border border-black rounded-xl shadow-xl">
               <figcaption className="feature-caption">reverse</figcaption>

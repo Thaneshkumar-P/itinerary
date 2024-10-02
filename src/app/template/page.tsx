@@ -73,6 +73,7 @@ export default function FriendsPage() {
     });
 
     const data = await response.json();
+    console.log(data)
     return data.fid;
   };
   
@@ -255,7 +256,7 @@ export default function FriendsPage() {
 
   async function deleteExcluded(index: number) {
     const fileId = excluded[index].svg
-    
+
     await deleteImageFromSeaweedFS(fileId);
     
     const updatedExcluded = toc.filter((_, i) => i!==index);
@@ -595,7 +596,7 @@ export default function FriendsPage() {
                 accept="image/*"
                 multiple
                 id={`excluded-svg`}
-                // onChange={(e) => handleAddNewSVG(e)}
+                
                 className="pt-2"
               />
               <Label htmlFor="toc-name text-base">Name</Label>
@@ -603,7 +604,7 @@ export default function FriendsPage() {
                 type="text"
                 id={`excluded-name`}
                 placeholder="Name"
-                // onChange={(e) => handleAddNewSVGName(e)}
+                
                 className="p-6 text-base"
               />
             </div>
