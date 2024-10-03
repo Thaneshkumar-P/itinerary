@@ -1,101 +1,113 @@
-'use client'
+'use client';
 
-import { useEffect, useRef } from "react";
-import anime from "animejs/lib/anime.es.js"; // Import Anime.js
-import { mockItineraryData } from "@/lib/data";
+import { motion, useAnimationFrame } from "framer-motion";
+import Image from "next/image";
+import TB from '@/assets/travel-bag.svg';
+import { useState, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 
-export default function Page() {
-  const containerRefs = useRef<(HTMLDivElement | null)[]>([]);
+export default function TOC() {
+  const items = [
+    "TOC 1", "TOC 2", "TOC 3", "TOC 4", "TOC 5", "TOC 6", 
+    "TOC 7", "TOC 8", "TOC 9", "TOC 10", "TOC 11", "TOC 12",
+    "TOC 13", "TOC 14", "TOC 15", "TOC 16"
+  ];
+  const [radius, setRadius] = useState(250);
+  const [innerRadius, setInnerRadius] = useState(150);
+  const speed = 0.0001;
+
+  const [time, setTime] = useState(0);
+  const [animationStarted, setAnimationStarted] = useState(false);
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: .9,
+  });
 
   useEffect(() => {
-    // Initialize Anime.js animations for fade-in effect
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const element = entry.target as HTMLDivElement;
-
-          // Trigger fade-in animation with Anime.js
-          anime({
-            targets: element,
-            opacity: [0, 1],
-            duration: 500,
-            easing: 'easeInOutQuad',
-          });
-
-          observer.unobserve(element);
-        }
-      });
-    }, {
-      root: null,
-      threshold: .5,
-    });
-
-    // Observe each container
-    containerRefs.current.forEach(ref => {
-      if (ref) {
-        observer.observe(ref);
+    // Dynamically adjust the radius based on the screen size
+    const updateRadius = () => {
+      if (window.innerWidth <= 768) {
+        setRadius(120); // Smaller radius for mobile
+        setInnerRadius(80); // Smaller inner circle for mobile
+      } else {
+        setRadius(250); // Default for larger screens
+        setInnerRadius(150); // Default inner circle radius
       }
-    });
+    };
+
+    updateRadius();
+    window.addEventListener('resize', updateRadius);
 
     return () => {
-      // Cleanup: unobserve all elements
-      observer.disconnect();
+      window.removeEventListener('resize', updateRadius);
     };
   }, []);
 
-  const curvePath = (x1: number, y1: number, x2: number, y2: number) => {
-    const cp1X = x1 + (x2 - x1) / 2; 
-    const cp1Y = y1;
-    const cp2X = x1 + (x2 - x1) / 2; // Midpoint control point
-    const cp2Y = y2;
-    return `M ${x1},${y1} C ${cp1X},${cp1Y} ${cp2X},${cp2Y} ${x2},${y2}`;
-  };
+  useAnimationFrame((delta) => {
+    if (animationStarted) {
+      setTime(() => delta * speed);
+    }
+  });
+
+  useEffect(() => {
+    if (inView) {
+      setAnimationStarted(true);
+    }
+  }, [inView]);
 
   return (
-    <>
-      <div className="h-[100vh]">
-
+    <div ref={ref} className="relative flex items-center justify-center h-screen">
+      <div className="p-4 rounded-full shadow-xl" id="main-bag">
+        <Image src={TB} alt="bag" width={radius / 2} height={radius / 2} />
       </div>
-      <div className="relative flex flex-col gap-[75px] w-full px-32">
-        {mockItineraryData.locations.map((location, index) => (
-          <div
-            ref={(el) => {containerRefs.current[index] = el}}
-            className={`relative flex font-bold border-[2px] rounded-[1px] node-shadow h-[150px] w-[350px] p-5 opacity-0 ${
-              index % 2 === 1 ? "ml-auto" : ""
-            }`}
-            key={location.locationName}
-            id="loc"
+
+      {items.map((item, index) => {
+        const circleIndex = index < 8 ? 1 : 2;
+        const effectiveRadius = circleIndex === 1 ? radius : innerRadius;
+        const angleOffset = ((index % 8) / 8) * (2 * Math.PI);
+        const targetX = Math.cos(angleOffset) * effectiveRadius;
+        const targetY = Math.sin(angleOffset) * effectiveRadius;
+
+        const currentAngle = time + angleOffset;
+        const xPos = Math.cos(currentAngle) * effectiveRadius;
+        const yPos = Math.sin(currentAngle) * effectiveRadius;
+
+        return (
+          <motion.div
+            key={index}
+            className="absolute rounded-xl shadow-lg border p-2 w-fit"
+            initial={{
+              x: 0,
+              y: 0,
+              opacity: 0,
+            }}
+            animate={{
+              x: animationStarted ? targetX : 0,
+              y: animationStarted ? targetY : 0,
+              opacity: animationStarted ? 1 : 0,
+            }}
+            transition={{
+              duration: 1.5,
+              delay: animationStarted ? index * 0.2 : 0,
+              ease: "easeInOut",
+              onComplete: () => {
+                if (index === items.length - 1 && animationStarted) {
+                  setTime(0.0001);
+                }
+              },
+            }}
+            style={{
+              position: "absolute",
+              transform: `translate(${xPos}px, ${yPos}px)`,
+            }}
           >
-            <h2 className="text-3xl">{location.locationName}</h2>
-
-            {index < mockItineraryData.locations.length - 1 && (
-              <svg
-                width="100%"
-                height={75} // Adjusted for better spacing
-                style={{
-                  position: "absolute",
-                  top: "100%",
-                  left: index % 2 === 1 ? "-350px" : "350px",
-                  transform: index % 2 === 1 ? "scaleX(-1)" : "none", // Flip for right boxes
-                }}
-                id="path"
-              >
-                <path
-                  d={curvePath(
-                    0,
-                    0, // Starting at the current box
-                    350,
-                    75 // Fixed height for the path
-                  )}
-                  fill="transparent"
-                  stroke="black"
-                  strokeWidth={2}
-                />
-              </svg>
-            )}
-          </div>
-        ))}
-      </div>
-    </>
+            <div className="flex flex-col items-center">
+              <Image src={TB} alt="" className="rounded-xl" width={35} height={35} /> {/* Smaller for mobile */}
+              <h4 className="text-sm">{item}</h4>
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
   );
 }

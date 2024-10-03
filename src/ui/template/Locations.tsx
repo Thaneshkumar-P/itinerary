@@ -11,11 +11,9 @@ import Hotel from '@/assets/hotel.svg';
 import Highlight from '@/assets/highlight.svg';
 import Date from '@/assets/date.svg';
 import Image from 'next/image';
-import { SwiperSlide, Swiper} from 'swiper/react';
+import { SwiperSlide, Swiper } from 'swiper/react';
 import { A11y, Autoplay, Mousewheel, Navigation } from 'swiper/modules';
 import 'swiper/css/effect-fade';
-
-
 
 const AnimatedHeading: React.FC = () => {
   useEffect(() => {
@@ -66,7 +64,6 @@ const AnimatedHeading: React.FC = () => {
       observer.observe(heading);
     });
 
-    
     background.forEach(background => {
       backgroundObserver.observe(background);
     });
@@ -74,7 +71,7 @@ const AnimatedHeading: React.FC = () => {
     return () => {
       headings.forEach(heading => {
         observer.unobserve(heading);
-      });    
+      });
       background.forEach(background => {
         backgroundObserver.unobserve(background);
       });
@@ -84,45 +81,45 @@ const AnimatedHeading: React.FC = () => {
   return (
     <>
       {mockItineraryData.locations.map((location, index) => (
-        <>
-        <div className="relative p-5 overflow-hidden">
-          <div className="absolute flex w-full z-[9999] -ml-[20px] justify-end">
-          <div
-          className='p-14 overflow-hidden flex flex-col justify-end'
-          key={location.locationName}        
-        >
-          <h1 className={`ml6 font-extrabold text-7xl top-[80%] opacity-0 ${index % 2 === 0 ? 'left-10' : 'right-10'}`}>
-            <span className='letters'>{location.locationName}</span>
-          </h1>  
-          <div className={`p-5 rounded-md`} style={{ background: 'rgb(255 255 255 / 70%)'}}>          
-            <div className="location-details flex flex-wrap gap-4">
-              {[
-                { icon: Duration, label: location.locationDays },
-                { icon: Night, label: location.nights },
-                { icon: Date, label: location.date },
-                { icon: Hotel, label: location.locationStay },
-                { icon: Food, label: location.locationMeals },
-                { icon: Highlight, label: location.locationHighlight },
-              ].map(({ icon, label }, idx) => (
-                <div key={idx} className='flex items-center gap-2'>
-                  <div className='shadow border w-fit p-2 rounded-2xl'>
-                    <Image src={icon} alt={`icon-${label}`} width={40} height={40} />
-                  </div>
-                  <div className='w-[200px] text-clip'>
-                    <p className="text-md font-medium col-span-4">{label}</p>
-                  </div>
+        <div className="relative p-5 overflow-hidden" key={index}>
+          <div className="absolute flex w-full z-[8000] -ml-[20px] justify-end">
+            <div className='p-14 overflow-hidden flex flex-col justify-end'>
+              <h1 className={`ml6 font-extrabold text-7xl top-[80%] opacity-0 ${index % 2 === 0 ? 'left-10' : 'right-10'}`}>
+                <span className='letters'>{location.locationName}</span>
+              </h1>
+              <div className={`p-5 rounded-md`} style={{ background: 'rgb(255 255 255 / 70%)' }}>
+                <div className="location-details flex flex-wrap gap-4">
+                  {[
+                    { icon: Duration, label: location.locationDays },
+                    { icon: Night, label: location.nights },
+                    { icon: Date, label: location.date },
+                    { icon: Hotel, label: location.locationStay },
+                    { icon: Food, label: location.locationMeals },
+                    { icon: Highlight, label: location.locationHighlight },
+                  ].map(({ icon, label }, idx) => (
+                    <div key={idx} className='flex items-center gap-2'>
+                      <div className='shadow border w-fit p-2 rounded-2xl'>
+                        <Image src={icon} alt={`icon-${label}`} width={40} height={40} />
+                      </div>
+                      <div className='w-[200px] text-clip'>
+                        <p className="text-md font-medium col-span-4">{label}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+                <div className="mt-8">
+                  <p className="text-2xl">{location.overview}</p>
+                </div>
+              </div>
             </div>
-            <p className="text-2xl mt-8">{location.overview}</p>
-          </div>
-        </div>
-
           </div>
           <div className="h-[100vh] w-full">
             <Swiper
-              slidesPerView={3}
+              slidesPerView='auto'
               modules={[Navigation, A11y, Mousewheel, Autoplay]}
+              autoplay={{
+                delay: 5000
+              }}
               spaceBetween={25}
               loop={true}
             >
@@ -133,7 +130,7 @@ const AnimatedHeading: React.FC = () => {
                       <Image
                         src={IMG2}
                         alt="img1"
-                        className="object-fill w-full h-[100vh] rounded-xl"
+                        className="object-cover w-full h-[100vh] rounded-xl"
                       />
                     </div>
                   </div>
@@ -141,10 +138,8 @@ const AnimatedHeading: React.FC = () => {
               ))}
             </Swiper>
           </div>
-        </div>        
-      </>
+        </div>
       ))}
-
     </>
   );
 };

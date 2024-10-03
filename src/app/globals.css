@@ -145,5 +145,34 @@ body {
   box-shadow: 6px 6px 0 1px rgba(0, 0, 0, 0.7)
 }
 
+.loader {
+  position: relative;
+}
+
+/* Spinning gradient background */
+.loader::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 100%;
+  background: conic-gradient(from 0deg, #ff00ff, #00ffff, #ff00ff);
+  animation: spin 2s linear infinite;
+  z-index: -1;
+  box-shadow: 0 0 10px 1px rgba(255, 0, 255, 0.6), 0 0 10px 1px rgba(0, 255, 255, 0.6)
+
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 
 
