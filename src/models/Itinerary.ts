@@ -1,4 +1,4 @@
-import { Schema, model } from  "mongoose";
+import { Schema, model, models } from  "mongoose";
 
 export type ItineraryDocument = {
   _id: string;
@@ -83,4 +83,4 @@ const ItinerarySchema = new Schema({
   timestamps: true,
 });
 
-export const Itinerary = model<Document>('Itinerary', ItinerarySchema);
+export const Itinerary = models.Itinerary || model<Document>('Itinerary', ItinerarySchema);

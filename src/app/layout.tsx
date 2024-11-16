@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 // const montserrat = localFont({
 //   src: "./fonts/Montserrat-VariableFont_wght.ttf",
@@ -27,6 +28,7 @@ export default function RootLayout({
         className={`${montserrat.className}`}
       >
         {children}
+        <Toaster className="left-10" />
       </body>
     </html>
   );

@@ -123,6 +123,15 @@ body {
   background-position-x: -25px;
 }
 
+.bg-img-main {
+  background-image: url('../assets/V1.jpg');
+  background-size: 380px 300px;
+  background-repeat: no-repeat;
+  /* -webkit-mask-image: linear-gradient(0deg,rgb(36,36,40) 30%,#0000005c); */
+  /* background: linear-gradient(0deg,rgb(36,36,40) 30%,#0000005c) */
+
+}
+
 .deslide-item .deslide-cover {
     -webkit-mask-image: linear-gradient(0deg,rgb(36,36,40) 30%,transparent);
     mask-image: linear-gradient(0deg,rgb(36,36,40) 30%,transparent)

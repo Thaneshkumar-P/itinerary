@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 import BK from '@/assets/Burj.svg'
 import { Button } from "@/components/ui/button"
 import { Location, SVG, BasicInfo } from "@/models/Itinerary"
+import { toast } from "sonner"
 
 
 export default function FriendsPage() {
@@ -134,6 +135,9 @@ export default function FriendsPage() {
       ...basicInfo,
       [field]: value
     })
+    if(document.getElementById(field)?.classList.contains('border-red-500')){
+      document.getElementById(field)?.classList.remove('border-red-500')
+    }
   }
 
   const handleAddIncluded = async () => {
@@ -266,7 +270,34 @@ export default function FriendsPage() {
 
   const handleCreate = async () => {
     console.log(basicInfo, locations, toc, included, excluded)
-    const res = await fetch('/api/itinerary', {
+
+    let validation = false
+
+    locations.forEach((location, index) => {
+      if(location.images.length === 0) {
+        toast(`Image Needed for location-${index+1}`)
+        validation = true
+      }
+    })
+
+    if(toc.length === 0) {
+      toast(`Things to Carry not added.`)
+      validation = true
+    }
+
+    if(included.length === 0) {
+      toast(`Included details not added.`)
+      validation = true
+    }
+
+    if(excluded.length === 0) {
+      toast(`Excluded details not added.`)
+      validation = true
+    }
+
+    if(validation) return ;
+
+    await fetch('/api/itinerary', {
       method: 'POST',
       body: JSON.stringify({
         ...basicInfo,
@@ -275,9 +306,27 @@ export default function FriendsPage() {
         included,
         excluded
       })
-    })
+    }).then(async (res) => {
+      if(res.status === 201){
+        console.log(res)
+      }
+      else{
+        const data = await res.json()
+        console.log(data)
+        toast(data.error, {
+          description: data.fields[0]
+        })
+        data.fields.map((field: string) => {
+          let id = field
+          if(id.includes('.')) {
+            const split = id.split('.')
+            id = split[2] + '-' + split[1]
+          }
 
-    console.log(res)
+          document.getElementById(id)?.classList.add('border-red-500');
+        })
+      }
+    }).catch(() => {})
   }
 
 
@@ -290,7 +339,7 @@ export default function FriendsPage() {
           <div className="grid grid-cols-4 gap-3 ">
             <div className="grid w-full items-center gap-1.5 col-span-4">
               <Label htmlFor="title" className="text-base">Title</Label>
-              <Input type="text" id="title" onChange={(e) => handleChangeBasicInfo('title', e.target.value)} placeholder="Title" className="p-6 text-lg" />
+              <Input type="text" id="title" onChange={(e) => handleChangeBasicInfo('title', e.target.value)} placeholder="Title" className={`p-6 text-lg`} />
             </div>
             <div className="grid w-full items-center gap-1.5 col-span-2">
               <Label htmlFor="subTitle" className="text-base">Sub-Title</Label>
@@ -298,7 +347,7 @@ export default function FriendsPage() {
             </div>
             <div className="grid w-full items-center gap-1.5 col-span-2">
               <Label htmlFor="days" className="text-base">No. of Days</Label>
-              <Input type="number" id="days" placeholder="days" onChange={(e) => handleChangeBasicInfo('days', e.target.value)} className="p-6 text-lg" />
+              <Input type="number" id="days" placeholder="days" onChange={(e) => handleChangeBasicInfo('days', e.target.value)} className="p-6 text-lg" defaultValue={undefined} />
             </div>
             <div className="grid w-full items-center gap-1.5 col-span-4">
               <Label htmlFor="overview" className="text-base">Overview</Label>
@@ -368,33 +417,33 @@ export default function FriendsPage() {
               </div>
 
               <div className="grid w-full items-center gap-1.5 col-span-1">
-              <Label htmlFor="date" className="text-base">Date</Label>
-              <Input type="date" id="date" placeholder="Date" 
+              <Label htmlFor={`date-${index}`} className="text-base">Date</Label>
+              <Input type="date" id={`date-${index}`} placeholder="Date" 
                 onChange={(e) => handleLocationChange(index, 'date', e.target.value)}
                 className="p-6 text-lg block" 
               />
             </div>
             <div className="grid w-full items-center gap-1.5 col-span-1">
-              <Label htmlFor="locationStay" className="text-base">Location Stay</Label>
-              <Input type="text" id="locationStay" placeholder="Location Stay" className="p-6 text-lg" 
+              <Label htmlFor={`locationStay-${index}`} className="text-base">Location Stay</Label>
+              <Input type="text" id={`locationStay-${index}`} placeholder="Location Stay" className="p-6 text-lg" 
                 onChange={(e) => handleLocationChange(index, 'locationStay', e.target.value)}
               />
             </div>
             <div className="grid w-full items-center gap-1.5 col-span-1">
-              <Label htmlFor="locationMeals" className="text-base">Location Meals</Label>
-              <Input type="text" id="locationMeals" placeholder="Locations Meals" className="p-6 text-lg" 
+              <Label htmlFor={`locationMeals-${index}`} className="text-base">Location Meals</Label>
+              <Input type="text" id={`locationMeals-${index}`} placeholder="Locations Meals" className="p-6 text-lg" 
                 onChange={(e) => handleLocationChange(index, 'locationMeals', e.target.value)}
               />
             </div>
             <div className="grid w-full items-center gap-1.5 col-span-1">
-              <Label htmlFor="locationHighligt" className="text-base">Highlight</Label>
-              <Input type="text" id="locationHighligt" placeholder="Highlight" className="p-6 text-lg" 
+              <Label htmlFor={`locationHighlight-${index}`} className="text-base">Highlight</Label>
+              <Input type="text" id={`locationHighlight-${index}`} placeholder="Highlight" className="p-6 text-lg" 
                 onChange={(e) => handleLocationChange(index, 'locationHighlight', e.target.value)}
               />
             </div>
             <div className="grid w-full items-center gap-1.5 col-span-4">
-              <Label htmlFor="overview" className="text-base">Overview</Label>
-              <Textarea id="overview" placeholder="Overview" className="p-3 text-lg resize-none" 
+              <Label htmlFor={`locationOverview-${index}`} className="text-base">Overview</Label>
+              <Textarea id={`locationOverview-${index}`} placeholder="Overview" className="p-3 text-lg resize-none" 
                 onChange={(e) => handleLocationChange(index, 'overview', e.target.value)}
               />
             </div>

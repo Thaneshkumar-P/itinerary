@@ -10,7 +10,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-// import HM from '@/assets/HM.jpg'
+
 
 export default function Home() {
   const [selectedCard, setSelectedCard] = useState(false);
@@ -45,7 +45,24 @@ export default function Home() {
       <h4 className="text-3xl font-semibold">
         Itinerary Builder
       </h4>
-      <div className="grid grid-cols-3 mt-6">
+      <div className="grid grid-cols-3 mt-6 gap-5">
+        <motion.div>
+            <Card className="h-[200px] flex items-center justify-between flex-col bg-img-main w-full">
+              <CardContent className="p-2 w-full h-full flex items-center flex-col">
+                <h4 className="text-xl font-semibold">Title</h4>
+                <h4 className="text-xl font-semibold">Client Name</h4>
+                <div className="w-full mt-auto flex">
+                  <div className="flex flex-1 gap-2">
+                    <Link href={'/template/friends/id'} className="w-full" target="_new">
+                      <Button className="w-full">Open</Button>
+                    </Link>
+                    <Button className="">Copy Link</Button>
+                    <Button className="">Edit</Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+        </motion.div>
         <motion.div layoutId="card" onClick={() => setSelectedCard(true)}>
           <Card className="h-[200px] flex justify-center items-center">
             <CardContent className="pt-6">
